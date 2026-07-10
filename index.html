@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Special Surprise ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#f7eded;
+    font-family:Georgia,serif;
+}
+
+body{
+    position:relative;
+}
+
+/* ===========================
+   BACKGROUND
+=========================== */
+
+.background-container{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    justify-content:space-between;
+
+    padding:14px;
+
+    z-index:1;
+
+    overflow:hidden;
+
+    transition:.5s;
+
+    filter:blur(8px);
+
+}
+
+.photo-column{
+
+    width:48%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.photo-track{
+
+    position:absolute;
+
+    width:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+    will-change:transform;
+
+}
+
+.track-left{
+
+    animation:scrollUp 28s linear infinite;
+
+}
+
+.track-right{
+
+    animation:scrollDown 28s linear infinite;
+
+}
+
+@keyframes scrollUp{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(-50%);
+    }
+
+}
+
+@keyframes scrollDown{
+
+    from{
+        transform:translateY(-50%);
+    }
+
+    to{
+        transform:translateY(0);
+    }
+
+}
+
+/* ===========================
+   POLAROIDS
+=========================== */
+
+.polaroid{
+
+    background:white;
+
+    padding:12px 12px 26px;
+
+    width:100%;
+
+    max-width:260px;
+
+    margin:auto;
+
+    border-radius:4px;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.15);
+
+    transform:rotate(var(--rotation));
+
+}
+
+.polaroid img{
+
+    display:block;
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border:1px solid #ddd;
+
+}
+
+.polaroid:hover{
+
+    transform:
+        rotate(var(--rotation))
+        scale(1.02);
+
+}
+
+/* ===========================
+   OVERLAY
+=========================== */
+
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.35);
+
+    backdrop-filter:blur(5px);
+
+    z-index:10;
+
+}
+
+/* ===========================
+   POPUP
+=========================== */
+
+.popup-box{
+
+    position:relative;
+
+    width:min(92vw,430px);
+
+    min-height:210px;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:34px;
+
+    border:3px solid #ff4d6d;
+
+    box-shadow:
+
+        0 20px 40px rgba(0,0,0,.25);
+
+    text-align:center;
+
+    overflow:hidden;
+
+}
+
+.popup-box h2{
+
+    color:#ff4d6d;
+
+    font-size:2rem;
+
+    margin-bottom:35px;
+
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.btn-container{
+
+    position:relative;
+
+    width:100%;
+
+    height:90px;
+
+}
+
+.btn{
+
+    position:absolute;
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:13px 26px;
+
+    font-size:1.05rem;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    font-family:inherit;
+
+    font-weight:bold;
+
+}
+
+.btn-yes{
+
+    left:25%;
+
+    transform:translateX(-50%);
+
+    background:#ff4d6d;
+
+    color:white;
+
+    box-shadow:
+
+        0 6px 15px rgba(255,77,109,.4);
+
+}
+
+.btn-yes:hover{
+
+    background:#ff7091;
+
+    transform:
+        translateX(-50%)
+        scale(1.08);
+
+}
+
+.btn-no{
+
+    right:25%;
+
+    background:#6c757d;
+
+    color:white;
+
+}
+/* ===========================
+   ENVELOPE
+=========================== */
+
+.envelope-wrapper{
+
+    display:none;
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    z-index:20;
+
+}
+
+.envelope{
+
+    position:relative;
+
+    width:300px;
+
+    height:200px;
+
+    background:#ff758f;
+
+    border-radius:0 0 12px 12px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+
+}
+
+.envelope::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    border-left:150px solid transparent;
+    border-right:150px solid transparent;
+    border-top:100px solid #ff4d6d;
+
+    transform-origin:top;
+
+    transition:.6s;
+
+    z-index:2;
+
+}
+
+.envelope.open::before{
+
+    transform:rotateX(180deg);
+
+}
+
+.letter{
+
+    position:absolute;
+
+    left:10px;
+
+    bottom:0;
+
+    width:280px;
+
+    height:180px;
+
+    background:white;
+
+    border-radius:8px;
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    transition:.8s;
+
+    box-shadow:0 -5px 15px rgba(0,0,0,.1);
+
+}
+
+.envelope.open .letter{
+
+    transform:translateY(-120px);
+
+}
+
+.letter h1{
+
+    color:#d90429;
+
+    margin-bottom:10px;
+
+    font-size:1.3rem;
+
+}
+
+.letter p{
+
+    line-height:1.5;
+
+    color:#2b2d42;
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width:768px){
+
+.background-container{
+
+padding:8px;
+
+}
+
+.photo-column{
+
+width:48%;
+
+}
+
+.photo-track{
+
+gap:14px;
+
+}
+
+.polaroid{
+
+max-width:160px;
+
+padding:10px 10px 20px;
+
+}
+
+.polaroid img{
+
+height:165px;
+
+}
+
+.popup-box{
+
+width:92vw;
+
+padding:25px 20px;
+
+min-height:180px;
+
+}
+
+.popup-box h2{
+
+font-size:1.6rem;
+
+}
+
+.btn{
+
+font-size:.95rem;
+
+padding:12px 20px;
+
+}
+
+.btn-container{
+
+height:80px;
+
+}
+
+.envelope{
+
+width:250px;
+
+height:165px;
+
+}
+
+.envelope::before{
+
+border-left:125px solid transparent;
+border-right:125px solid transparent;
+border-top:82px solid #ff4d6d;
+
+}
+
+.letter{
+
+width:230px;
+
+height:145px;
+
+left:10px;
+
+padding:15px;
+
+}
+
+.envelope.open .letter{
+
+transform:translateY(-95px);
+
+}
+
+.letter h1{
+
+font-size:1rem;
+
+}
+
+.letter p{
+
+font-size:.85rem;
+
+}
+
+}
+
+/* ===========================
+   END CSS
+=========================== */
+
+</style>
+
+</head>
+
+<body>
+
+<div class="background-container" id="bgContainer">
+
+    <div class="photo-column">
+
+        <div class="photo-track track-left" id="herTrack"></div>
+
+    </div>
+
+    <div class="photo-column">
+
+        <div class="photo-track track-right" id="myTrack"></div>
+
+    </div>
+
+</div>
+
+<div class="overlay" id="popupOverlay">
+
+    <div class="popup-box">
+
+        <h2>Do you love me? 🥺❤️</h2>
+
+        <div class="btn-container">
+
+            <button
+                class="btn btn-yes"
+                onclick="acceptLove()">
+
+                YESSS BABEE ❤️
+
+            </button>
+
+            <button
+                class="btn btn-no"
+                id="noBtn">
+
+                Um... no
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+class="envelope-wrapper"
+id="envelopeWrapper">
+
+<div
+class="envelope"
+id="envelope">
+
+<div class="letter">
+
+<h1>
+🎉 Congratulations!
+</h1>
+
+<p>
+
+You've officially unlocked unlimited hugs,
+kisses and cuddles for life ❤️
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+// ==========================================
+// IMAGE LINKS
+// ==========================================
+
+const herImages = [
+
+    "https://i.ibb.co/vvT1W8Tp/IMG-20260709-WA0041.jpg",
+    "https://i.ibb.co/QFSYXdPn/IMG-20260708-WA0030.jpg",
+    "https://i.ibb.co/9mWNGhV5/7a5cfc1b94e865525f4a1b3892f84978.jpg",
+    "https://i.ibb.co/4gmF6cMr/IMG-20260620-WA0045.jpg",
+    "https://i.ibb.co/mCXQ8FKx/IMG-20260620-WA0035.jpg",
+    "https://i.ibb.co/chKGF2tr/IMG-20260618-WA0009.jpg",
+    "https://i.ibb.co/67HJ1PG2/IMG-20260601-WA0022.jpg",
+    "https://i.ibb.co/1JXBghGk/IMG-20260601-WA0018.jpg"
+
+];
+
+
+const myImages = [
+
+    "https://i.ibb.co/YBQbYDNm/IMG-20250620-131258124.jpg",
+    "https://i.ibb.co/XvTnH8g/20250928-070142.jpg",
+    "https://i.ibb.co/k27sTL8G/20250726-142907.jpg",
+    "https://i.ibb.co/fszJnrW/IMG-20250620-132915724.jpg",
+    "https://i.ibb.co/HLV8FWjz/20250215-115938.jpg",
+    "https://i.ibb.co/21L3wZ3G/20250201-193157.jpg",
+    "https://i.ibb.co/G3cBBB7n/20241221-205755.jpg",
+    "https://i.ibb.co/ds4GH2gq/20241004-145111.jpg"
+
+];
+
+
+// ==========================================
+// CREATE PHOTO TRACKS
+// ==========================================
+
+function buildTrack(trackElement, images){
+
+    // duplicate for smooth looping
+    const loopImages = [
+        ...images,
+        ...images
+    ];
+
+
+    loopImages.forEach(src => {
+
+
+        const polaroid =
+            document.createElement("div");
+
+
+        polaroid.className =
+            "polaroid";
+
+
+        const rotation =
+            (Math.random()*8-4).toFixed(2);
+
+
+        polaroid.style
+            .setProperty(
+                "--rotation",
+                `${rotation}deg`
+            );
+
+
+        const img =
+            document.createElement("img");
+
+
+        img.src = src;
+
+
+        // performance improvement
+        img.loading = "lazy";
+
+
+        // hide broken images safely
+        img.onerror = function(){
+
+            this.style.display="none";
+
+        };
+
+
+        polaroid.appendChild(img);
+
+
+        trackElement.appendChild(polaroid);
+
+
+    });
+
+}
+
+
+
+buildTrack(
+    document.getElementById("herTrack"),
+    herImages
+);
+
+
+buildTrack(
+    document.getElementById("myTrack"),
+    myImages
+);
+
+
+
+
+// ==========================================
+// NO BUTTON MOVEMENT
+// ==========================================
+
+
+const noBtn =
+    document.getElementById("noBtn");
+
+
+const popup =
+    document.querySelector(".popup-box");
+
+
+
+function flyAway(){
+
+
+    const padding = 15;
+
+
+    const maxX =
+        popup.clientWidth -
+        noBtn.offsetWidth -
+        padding*2;
+
+
+    const maxY =
+        popup.clientHeight -
+        noBtn.offsetHeight -
+        padding*2;
+
+
+
+    const randomX =
+        Math.random()*maxX + padding;
+
+
+    const randomY =
+        Math.random()*maxY + padding;
+
+
+
+    noBtn.style.position =
+        "absolute";
+
+
+    noBtn.style.left =
+        randomX + "px";
+
+
+    noBtn.style.top =
+        randomY + "px";
+
+
+}
+
+
+
+// only moves when clicked
+
+noBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+
+        flyAway();
+
+    }
+);
+
+
+
+// mobile tap
+
+noBtn.addEventListener(
+    "touchstart",
+    function(e){
+
+        e.preventDefault();
+
+        flyAway();
+
+    },
+    {
+        passive:false
+    }
+);
+// ==========================================
+// YES BUTTON SUCCESS
+// ==========================================
+
+function acceptLove(){
+
+
+    // hide popup
+
+    document
+    .getElementById("popupOverlay")
+    .style.display="none";
+
+
+
+    // remove blur
+
+    document
+    .getElementById("bgContainer")
+    .style.filter="none";
+
+
+
+    // show envelope
+
+    const wrapper =
+        document.getElementById(
+            "envelopeWrapper"
+        );
+
+
+    wrapper.style.display =
+        "block";
+
+
+
+    // open after small delay
+
+    setTimeout(()=>{
+
+
+        document
+        .getElementById("envelope")
+        .classList
+        .add("open");
+
+
+    },300);
+
+
+
+}
+
+
+// ==========================================
+// SMALL PERFORMANCE IMPROVEMENT
+// ==========================================
+
+// Pause animations when phone tab is not visible
+
+document.addEventListener(
+    "visibilitychange",
+    ()=>{
+
+
+        const tracks =
+            document.querySelectorAll(
+                ".photo-track"
+            );
+
+
+        tracks.forEach(track=>{
+
+
+            track.style.animationPlayState =
+                document.hidden
+                ? "paused"
+                : "running";
+
+
+        });
+
+
+    }
+);
+</script>
+
+</body>
+
+</html>
